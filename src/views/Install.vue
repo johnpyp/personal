@@ -14,6 +14,16 @@
 
         <v-btn color="success" @click="saveFile(text)" :disabled="!text">Download</v-btn>
       </v-flex>
+      <v-flex xs12 text-xs-left>
+        <h1>Useful Stuff</h1>
+        <v-flex v-for="(use, index) in useful" :key="index">
+          <p class="subheading">{{use.function}}:
+            <pre v-highlightjs="use.exec" v-if="_.isString(use.exec)"><code class="shell"></code></pre>
+            <pre v-highlightjs="use.exec.join('\n')" v-if="_.isArray(use.exec)"><code class="shell"></code></pre>
+          </p>
+
+        </v-flex>
+      </v-flex>
     </v-layout>
   </v-container>
 </template>
@@ -25,10 +35,14 @@ export default {
     return {
       install: '',
       selected: [],
-      packages: require('../assets/packages')
+      packages: require('../assets/packages'),
+      useful: require('../assets/useful')
     }
   },
   computed: {
+    _() {
+      return _
+    },
     text() {
       let chosen = _.filter(this.packages, p => this.selected.includes(p.name))
       let res = ''

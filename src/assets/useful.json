@@ -1,0 +1,15 @@
+[
+  {
+    "function": "Lists all manually installed packages",
+    "exec":
+      "comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u)"
+  },
+  {
+    "function": "Search installed and available apt packages",
+    "exec": "apt-cache search <<keyword>>"
+  },
+  {
+    "function": "Git force pull a branch",
+    "exec": ["git fetch --all", "git reset --hard origin/<branch_name>"]
+  }
+]
