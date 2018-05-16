@@ -56,5 +56,11 @@
     "manager": "apt",
     "icon": null,
     "exec": "gnome-tweak-tool"
+  },
+  {
+    "name": "Yarn",
+    "manager": "apt",
+    "icon": null,
+    "exec": "yarn"
   }
 ]
