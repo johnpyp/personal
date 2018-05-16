@@ -1,8 +1,10 @@
 <template>
   <div id="app">
-    <div id="nav">
-      Hellooooo World </div>
-    <router-view/>
+    <v-app>
+      <v-content>
+        <router-view/>
+      </v-content>
+    </v-app>
   </div>
 </template>
 
