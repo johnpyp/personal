@@ -2,6 +2,6 @@ export function handler(event, context, callback) {
   console.log(event, context)
   callback(null, {
     statusCode: 200,
-    body: 'Hello, World'
+    body: 'Hello, World :D'
   })
 }
