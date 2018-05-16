@@ -62,5 +62,26 @@
     "manager": "apt",
     "icon": null,
     "exec": "yarn"
+  },
+  {
+    "name": "Docker",
+    "manager": "custom",
+    "icon": null,
+    "exec": [
+      "sudo apt-get install \\\napt-transport-https \\\nca-certificates \\\ncurl \\\nsoftware-properties-common",
+      "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -",
+      "sudo add-apt-repository \\",
+      "\"deb [arch=amd64] https://download.docker.com/linux/ubuntu \\",
+      "$(lsb_release) -cs) \\",
+      "stable\"",
+      "sudo apt-get update",
+      "sudo apt-get install docker-ce"
+    ]
+  },
+  {
+    "name": "Docker Compose",
+    "manager": "apt",
+    "icon": null,
+    "exec": "docker-compose"
   }
 ]
