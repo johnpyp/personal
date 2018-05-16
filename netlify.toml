@@ -1,7 +1,6 @@
-NODE_ENV = "10.1.0"
+NODE_VERSION = "10.1.0"
 YARN_VERSION = "1.6.0"
 [build]
   Command = "yarn build && yarn build:lambda"
   Functions = "lambda"
   Publish = "dist"
-[context.production]
