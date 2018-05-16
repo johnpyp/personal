@@ -2,7 +2,7 @@
   {
     "name": "Nvm + Node/npm",
     "manager": "custom",
-    "icon": null,
+    "cat": "Devops",
     "exec": [
       "curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash",
       "nvm install node",
@@ -13,37 +13,37 @@
   {
     "name": "Slack Desktop",
     "manager": "apt",
-    "icon": null,
+    "cat": "Communication",
     "exec": "slack-desktop"
   },
   {
     "name": "Discord",
     "manager": "snap",
-    "icon": null,
+    "cat": "Communication",
     "exec": "discord"
   },
   {
     "name": "Hashcat",
     "manager": "apt",
-    "icon": null,
+    "cat": "Hacking",
     "exec": "hashcat"
   },
   {
     "name": "Spotify",
     "manager": "snap",
-    "icon": null,
+    "cat": "Media",
     "exec": "spotify"
   },
   {
     "name": "Git",
     "manager": "apt",
-    "icon": null,
+    "cat": "Devops",
     "exec": "git"
   },
   {
     "name": "Chrome",
     "manager": "custom",
-    "icon": null,
+    "cat": "Web",
     "exec": [
       "wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -",
       "echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' | sudo tee /etc/apt/sources.list.d/google-chrome.list",
@@ -54,13 +54,13 @@
   {
     "name": "Gnome Tweak Tool",
     "manager": "apt",
-    "icon": null,
+    "cat": "Utils",
     "exec": "gnome-tweak-tool"
   },
   {
     "name": "Yarn",
     "manager": "custom",
-    "icon": null,
+    "cat": "Devops",
     "exec": [
       "curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -",
       "echo \"deb https://dl.yarnpkg.com/debian/ stable main\" | sudo tee /etc/apt/sources.list.d/yarn.list",
@@ -70,14 +70,11 @@
   {
     "name": "Docker",
     "manager": "custom",
-    "icon": null,
+    "cat": "Devops",
     "exec": [
-      "sudo apt-get install \\\napt-transport-https \\\nca-certificates \\\ncurl \\\nsoftware-properties-common",
+      "sudo apt-get install apt-transport-https ca-certificate curl software-properties-common",
       "curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -",
-      "sudo add-apt-repository \\",
-      "\"deb [arch=amd64] https://download.docker.com/linux/ubuntu \\",
-      "$(lsb_release) -cs) \\",
-      "stable\"",
+      "sudo add-apt-repository \"deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable\"",
       "sudo apt-get update",
       "sudo apt-get install docker-ce"
     ]
@@ -85,7 +82,7 @@
   {
     "name": "Docker Compose",
     "manager": "apt",
-    "icon": null,
+    "cat": "Devops",
     "exec": "docker-compose"
   }
 ]

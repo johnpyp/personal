@@ -3,7 +3,9 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Install from './views/Install.vue'
 import UsefulShell from './views/UsefulShell'
+import VueClipboard from 'vue-clipboard2'
 Vue.use(Router)
+Vue.use(VueClipboard)
 
 export default new Router({
   routes: [

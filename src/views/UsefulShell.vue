@@ -12,10 +12,24 @@
           </v-toolbar>
           <v-card-text>
             <v-flex v-for="(use, index) in useful" :key="index">
-              <p class="subheading">{{use.function}}:
-                <pre v-highlightjs="use.exec" v-if="_.isString(use.exec)"><code class="shell"></code></pre>
-                <pre v-highlightjs="use.exec.join('\n')" v-if="_.isArray(use.exec)"><code class="shell"></code></pre>
-              </p>
+              <v-layout row wrap>
+                <v-flex xs12>
+                  <p class="subheading mb-0">{{use.function}}:</p>
+                </v-flex>
+                <v-flex xs11>
+                  <pre v-highlightjs="use.exec" v-if="_.isString(use.exec)"><code class="shell"></code></pre>
+                  <pre v-highlightjs="use.exec.join('\n')" v-if="_.isArray(use.exec)"><code class="shell"></code></pre>
+
+                </v-flex>
+
+                <v-btn icon @click="$copyText(use.exec)" v-if="_.isString(use.exec)">
+                  <v-icon>file_copy</v-icon>
+                </v-btn>
+                <v-btn icon @click="$copyText(use.exec.join('\n'))" v-if="_.isArray(use.exec)">
+                  <v-icon>file_copy</v-icon>
+                </v-btn>
+
+              </v-layout>
 
             </v-flex>
 
