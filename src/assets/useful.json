@@ -6,7 +6,7 @@
   },
   {
     "function": "Search installed and available apt packages",
-    "exec": "apt-cache search <<keyword>>"
+    "exec": "apt-cache search <keyword>"
   },
   {
     "function": "Git force pull a branch",

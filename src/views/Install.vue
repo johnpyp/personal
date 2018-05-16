@@ -1,28 +1,36 @@
 <template>
-  <v-container grid-list-xs>
-    <v-layout row wrap>
-      <v-flex xs12 text-xs-left>
-        <v-layout row wrap>
-          <v-flex xs12 sm6 md4 lg2 v-for="(pack, index) in packages" :key="index">
-            <v-checkbox v-model="selected" :label="pack.name" :value="pack.name" hide-details></v-checkbox>
-          </v-flex>
-        </v-layout>
-        <v-flex v-if="text">
-          <pre v-highlightjs="text"><code class=" bash"></code></pre>
+  <v-container grid-list-xl fluid class="ma-0 pa-0">
+    <v-layout row wrap justify-center>
+      <v-flex xs12 md10 lg8 text-xs-left>
+        <v-card>
+          <v-toolbar color="primary" dark>
+            <v-toolbar-title>Install</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-btn icon :to="{name: 'Home'}" exact>
+              <v-icon>home</v-icon>
+            </v-btn>
+          </v-toolbar>
+          <v-card-text>
+            <v-layout row wrap>
+              <v-flex xs12 sm6 md4 lg2 v-for="(pack, index) in packages" :key="index">
+                <v-checkbox v-model="selected" :label="pack.name" :value="pack.name" hide-details></v-checkbox>
+              </v-flex>
+            </v-layout>
 
-        </v-flex>
+          </v-card-text>
+          <v-divider v-if="text"></v-divider>
+          <v-card-text v-if="text">
+            <pre v-highlightjs="text"><code class=" bash"></code></pre>
 
-        <v-btn color="success" @click="saveFile(text)" :disabled="!text">Download</v-btn>
-      </v-flex>
-      <v-flex xs12 text-xs-left>
-        <h1>Useful Stuff</h1>
-        <v-flex v-for="(use, index) in useful" :key="index">
-          <p class="subheading">{{use.function}}:
-            <pre v-highlightjs="use.exec" v-if="_.isString(use.exec)"><code class="shell"></code></pre>
-            <pre v-highlightjs="use.exec.join('\n')" v-if="_.isArray(use.exec)"><code class="shell"></code></pre>
-          </p>
+          </v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-btn color="success" @click="saveFile(text)" :disabled="!text">Download</v-btn>
 
-        </v-flex>
+          </v-card-actions>
+
+        </v-card>
+
       </v-flex>
     </v-layout>
   </v-container>
@@ -35,8 +43,7 @@ export default {
     return {
       install: '',
       selected: [],
-      packages: require('../assets/packages'),
-      useful: require('../assets/useful')
+      packages: require('../assets/packages')
     }
   },
   computed: {
