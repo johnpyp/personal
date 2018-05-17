@@ -6,6 +6,11 @@
           <v-toolbar color="primary" dark>
             <v-toolbar-title>Mtg Estimated Value</v-toolbar-title>
             <v-spacer></v-spacer>
+            <v-toolbar-items>
+              <v-btn @click="clearCache" flat>Clear Cache
+                <v-icon>delete</v-icon>
+              </v-btn>
+            </v-toolbar-items>
             <v-btn icon :to="{name: 'Home'}" exact>
               <v-icon>home</v-icon>
             </v-btn>
@@ -16,12 +21,17 @@
           <v-card-actions>
             <v-btn color="green" @click="getSetData" dark>Get EV</v-btn>
             <v-btn color="blue" @click="remaining = getRemaining()" dark>Calculate Remaining</v-btn>
-            <p>Remaining: {{remaining}}</p>
+            <p>Ev: ${{_.round(ev)}}</p>
           </v-card-actions>
         </v-card>
-        <div v-if="setData">
-          {{setData}}
-        </div>
+        <v-data-table :headers="setDataHeaders" :items="setData" hide-actions class="elevation-1" v-if="setData">
+          <template slot="items" slot-scope="props">
+            <td>{{ props.item.name }}</td>
+            <td class="text-xs-left">{{ props.item.set }}</td>
+            <td class="text-xs-left">{{ props.item.usd }}</td>
+            <td class="text-xs-left">{{ props.item.rarity }}</td>
+          </template>
+        </v-data-table>
 
       </v-flex>
     </v-layout>
@@ -44,10 +54,7 @@ const store = localforage.createInstance({
 })
 const api = Cache({
   timeout: 24 * 60 * 60 * 1000,
-  store,
-  format: x => {
-    return _.map(x.data, y => _.pick(y, ['name', 'set', 'usd']))
-  }
+  store
 })
 
 export default {
@@ -56,23 +63,58 @@ export default {
       remaining: null,
       value: '',
       sets: [],
-      setData: null
+      setData: null,
+      setDataHeaders: [
+        { text: 'Name', value: 'name', align: 'left' },
+        { text: 'Set', value: 'set', align: 'left' },
+        { text: 'Price (TCG Low)', value: 'usd', align: 'left' },
+        { text: 'Rarity', value: 'rarity', align: 'left' }
+      ]
+    }
+  },
+  computed: {
+    _() {
+      return _
+    },
+    ev() {
+      let evTotal = 0
+      const average = arr =>
+        arr.reduce((p, c) => p + (c > 1 ? c : 0), 0) / arr.length
+      let avg = string =>
+        average(
+          _.map(_.filter(this.setData, { rarity: string }), x =>
+            parseFloat(x.usd)
+          )
+        )
+      if (this.setData) {
+        let mythics = avg('mythic') * 4.5
+        let rares = avg('rare') * 31.5
+        let uncommons = avg('uncommon') * 108
+        let commons = avg('common') * 396
+        console.log(mythics, rares, uncommons, commons)
+        evTotal = mythics + rares + uncommons + commons
+      }
+      return evTotal
     }
   },
   methods: {
+    async clearCache() {
+      return store.clear()
+    },
     async getSetData() {
       if (!this.value || this.value === '') return false
-      let res = await api.batchGet(
-        _.map(
-          _.range(231),
-          (x, index) => 'https://api.scryfall.com/cards?page=' + (index + 1)
-        ),
-        x => _.map(x.data, y => _.pick(y, ['name', 'set', 'usd'])),
-        true,
+      let res = await api.getFollow(
+        'https://api.scryfall.com/cards/search?q=s%3A' + this.value,
+        'next_page',
+        'has_more',
+        x => ({
+          ...x,
+          data: _.map(x.data, y => _.pick(y, ['name', 'set', 'usd', 'rarity']))
+        }),
         50
       )
 
-      this.setData = res.slice(0, 10)
+      this.setData = res
     },
     async getRemaining() {
       let res = await navigator.storage.estimate()
@@ -80,13 +122,13 @@ export default {
     }
   },
   async mounted() {
-    let res = await api.get('https://api.scryfall.com/sets/', x =>
-      _.map(x.data, y => _.pick(y, ['name', 'code']))
-    )
+    let res = await api.get('https://api.scryfall.com/sets/', x => ({
+      ...x,
+      data: _.map(x.data, y => _.pick(y, ['name', 'code']))
+    }))
 
-    this.sets = res
-  },
-  computed: {}
+    this.sets = res.data
+  }
 }
 </script>
 

@@ -6,67 +6,56 @@ export function Cache({ store, timeout }) {
     let res = await axios.get(url)
     return res.data
   }
-  async function getAndSet(url, format) {
+  async function getAndSet(url, format, time) {
     let res = await _get(url)
     await store.setItem(url, {
       expire: parseInt(moment().format('x')) + parseInt(timeout),
       data: format(res)
     })
+    await delay(time)
     return store.getItem(url)
   }
-
-  async function asyncIterate(promises, myDelay) {
-    function delay(t) {
-      return new Promise(function(resolve) {
-        setTimeout(resolve, t)
-      })
-    }
-    let funcs = _.map(promises, promise => () =>
-      Promise.all([promise, delay(myDelay)])
-    )
-    return funcs.reduce(
-      (promise, func) =>
-        promise.then(result => {
-          console.log('we goin bois')
-          return func().then(Array.prototype.concat.bind(result))
-        }),
-      Promise.resolve([])
-    )
+  function delay(t) {
+    console.log('waiting for: ' + t)
+    return new Promise(function(resolve) {
+      setTimeout(resolve, t)
+    })
   }
   return {
-    async get(url, format, optionalTimeout) {
+    async get(url, format, time = 50) {
       try {
         let value = await store.getItem(url)
         if (value !== null) {
           if (value.expire > parseInt(moment().format('x'))) {
             return value.data
           } else {
-            let newSet = await getAndSet(url, format)
+            let newSet = await getAndSet(url, format, time)
             return newSet.data
           }
         } else {
-          let newSet = await getAndSet(url, format)
+          let newSet = await getAndSet(url, format, time)
           return newSet.data
         }
       } catch (error) {
         return console.log(error)
       }
     },
-    async batchGet(urls, format, flatten, time = 50) {
-      let res = await asyncIterate(
-        _.map(urls, url => this.get(url, format)),
-        time
-      )
-      res = res.filter(x => x)
-      console.log(res, flatten)
-      if (flatten) {
-        console.log(_.flatten(res))
-        await store.setItem('[all]' + urls[0], _.flatten(res))
-        return store.getItem('[all]' + urls[0])
-      } else {
-        await store.setItem('[all]' + urls[0], res)
-        return store.getItem('[all]' + urls[0])
+
+    async getFromStore(url) {
+      return store.getItem('[all]' + url)
+    },
+    async getFollow(url, urlField, urlCheckField, format, time) {
+      let initial = await this.get(url, format)
+      let collect = async (prev, total) => {
+        total = total || []
+        total.push(prev.data)
+        if (!prev[urlCheckField]) {
+          return _.flatten(total)
+        }
+        let res = await this.get(prev[urlField], format, time)
+        return collect(res, total)
       }
+      return collect(initial)
     }
   }
 }
