@@ -21,6 +21,10 @@
           <v-card-actions>
             <v-btn color="green" @click="getSetData" dark>Get EV</v-btn>
             <v-btn color="blue" @click="remaining = getRemaining()" dark>Calculate Remaining</v-btn>
+            <v-flex xs1>
+              <v-text-field label="Min" id="id" type="number" v-model="min"></v-text-field>
+
+            </v-flex>
             <p>Ev: ${{_.round(ev)}}</p>
           </v-card-actions>
         </v-card>
@@ -63,6 +67,7 @@ export default {
       remaining: null,
       value: '',
       sets: [],
+      min: 1,
       setData: null,
       setDataHeaders: [
         { text: 'Name', value: 'name', align: 'left' },
@@ -79,11 +84,12 @@ export default {
     ev() {
       let evTotal = 0
       const average = arr =>
-        arr.reduce((p, c) => p + (c > 1 ? c : 0), 0) / arr.length
+        arr.reduce((p, c) => p + (c > this.min ? c : 0), 0) / arr.length
       let avg = string =>
         average(
-          _.map(_.filter(this.setData, { rarity: string }), x =>
-            parseFloat(x.usd)
+          _.map(
+            _.filter(this.setData, { rarity: string }),
+            x => parseFloat(x.usd) * 1.1
           )
         )
       if (this.setData) {

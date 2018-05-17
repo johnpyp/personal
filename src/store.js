@@ -40,6 +40,12 @@ export default new Vuex.Store({
             description:
               'Calculate the Estimated Value of any Magic: The Gathering set.',
             icon: 'games'
+          },
+          {
+            name: 'Mtg Collection Manager',
+            route: { name: 'MtgCollection' },
+            description: 'Track and manage your mtg collection',
+            icon: 'games'
           }
         ]
       }
