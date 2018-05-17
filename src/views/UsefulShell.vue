@@ -11,27 +11,29 @@
             </v-btn>
           </v-toolbar>
           <v-card-text>
-            <v-flex v-for="(use, index) in useful" :key="index">
-              <v-layout row wrap>
-                <v-flex xs12>
-                  <p class="subheading mb-0">{{use.function}}:</p>
-                </v-flex>
-                <v-flex xs11>
-                  <pre v-highlightjs="use.exec" v-if="_.isString(use.exec)"><code class="shell"></code></pre>
-                  <pre v-highlightjs="use.exec.join('\n')" v-if="_.isArray(use.exec)"><code class="shell"></code></pre>
+            <v-layout row wrap>
 
-                </v-flex>
+              <v-flex xs12 md6 v-for="(use, index) in formatted" :key="index">
+                <v-divider></v-divider>
+                <v-card class="elevation-6">
+                  <v-card-title>
+                    <div>
+                      <h3 class="headline mb-0">{{use.function}}</h3>
+                    </div>
+                  </v-card-title>
+                  <v-card-text>
+                    <pre v-highlightjs="use.exec"><code class="shell"></code></pre>
 
-                <v-btn icon @click="$copyText(use.exec)" v-if="_.isString(use.exec)">
-                  <v-icon>file_copy</v-icon>
-                </v-btn>
-                <v-btn icon @click="$copyText(use.exec.join('\n'))" v-if="_.isArray(use.exec)">
-                  <v-icon>file_copy</v-icon>
-                </v-btn>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-btn flat color="primary" @click="$copyText(use.exec)">Copy &nbsp;
+                      <v-icon>file_copy</v-icon>
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
 
-              </v-layout>
-
-            </v-flex>
+              </v-flex>
+            </v-layout>
 
           </v-card-text>
         </v-card>
@@ -52,6 +54,12 @@ export default {
   computed: {
     _() {
       return _
+    },
+    formatted() {
+      return _.map(
+        this.useful,
+        x => (_.isArray(x.exec) ? { ...x, exec: x.exec.join('\n') } : x)
+      )
     }
   }
 }

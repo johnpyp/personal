@@ -26,6 +26,22 @@ export default new Vuex.Store({
             icon: 'notes'
           }
         ]
+      },
+      {
+        type: 'subheader',
+        content: 'MTG'
+      },
+      {
+        type: 'items',
+        content: [
+          {
+            name: 'Mtg Estimated Value',
+            route: { name: 'MtgEv' },
+            description:
+              'Calculate the Estimated Value of any Magic: The Gathering set.',
+            icon: 'games'
+          }
+        ]
       }
     ]
   },

@@ -4,6 +4,7 @@ import Home from './views/Home.vue'
 import Install from './views/Install.vue'
 import UsefulShell from './views/UsefulShell'
 import VueClipboard from 'vue-clipboard2'
+import MtgEv from './views/MtgEv'
 Vue.use(Router)
 Vue.use(VueClipboard)
 
@@ -23,6 +24,11 @@ export default new Router({
       path: '/usefulshell',
       name: 'UsefulShell',
       component: UsefulShell
+    },
+    {
+      path: '/mtgev',
+      name: 'MtgEv',
+      component: MtgEv
     }
   ]
 })
