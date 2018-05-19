@@ -46,14 +46,10 @@
 <script>
 import _ from 'lodash'
 import { Cache } from '../Utils/Cache'
-// import { setup } from 'axios-cache-adapter'
 import localforage from 'localforage'
 import memoryDriver from 'localforage-memoryStorageDriver'
-// import _ from 'lodash'
 const store = localforage.createInstance({
-  // List of drivers used
   driver: [localforage.INDEXEDDB, localforage.LOCALSTORAGE, memoryDriver],
-  // Prefix all storage keys to prevent conflicts
   name: 'mtg-ev'
 })
 const api = Cache({
