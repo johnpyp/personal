@@ -11,15 +11,16 @@
             </v-btn>
           </v-toolbar>
           <v-card-text>
-            <v-layout row wrap v-for="(packages, index) in _.map(_.groupBy(packages, 'cat'), (x, cat) => ({packages: x, cat}))" :key="index">
-              <v-flex xs12>
+            <v-layout row wrap>
+              <v-flex xs12 sm6 md4 lg3 v-for="(packages, index) in _.map(_.groupBy(packages, 'cat'), (x, cat) => ({packages: x, cat}))" :key="index">
 
                 <h2>{{packages.cat}}</h2>
+                <v-flex xs12 v-for="(pack, index2) in packages.packages" :key="index2">
+                  <v-checkbox v-model="selected" :label="pack.name" :value="pack.name" hide-details></v-checkbox>
+                </v-flex>
+
               </v-flex>
 
-              <v-flex xs12 sm6 md4 lg2 v-for="(pack, index2) in packages.packages" :key="index2">
-                <v-checkbox v-model="selected" :label="pack.name" :value="pack.name" hide-details></v-checkbox>
-              </v-flex>
             </v-layout>
 
           </v-card-text>

@@ -83,20 +83,20 @@ export default {
     },
     ev() {
       let evTotal = 0
-      const average = arr =>
-        arr.reduce((p, c) => p + (c > this.min ? c : 0), 0) / arr.length
-      let avg = string =>
+      const average = (arr, s) =>
+        arr.reduce((p, c) => p + (c > this.min ? c : s), 0) / arr.length
+      let avg = (string, s) =>
         average(
-          _.map(
-            _.filter(this.setData, { rarity: string }),
-            x => parseFloat(x.usd) * 1.1
-          )
+          _.map(_.filter(this.setData, { rarity: string }), x =>
+            parseFloat(x.usd)
+          ),
+          s
         )
       if (this.setData) {
-        let mythics = avg('mythic') * 4.5
-        let rares = avg('rare') * 31.5
-        let uncommons = avg('uncommon') * 108
-        let commons = avg('common') * 396
+        let mythics = avg('mythic', 0.2) * 4.5
+        let rares = avg('rare', 0.1) * 31.5
+        let uncommons = avg('uncommon', 0.0006) * 108
+        let commons = avg('common', 0.0004) * 396
         console.log(mythics, rares, uncommons, commons)
         evTotal = mythics + rares + uncommons + commons
       }

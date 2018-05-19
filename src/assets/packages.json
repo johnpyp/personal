@@ -84,5 +84,23 @@
     "manager": "apt",
     "cat": "Devops",
     "exec": "docker-compose"
+  },
+  {
+    "name": "Qalculate",
+    "manager": "snap",
+    "cat": "General",
+    "exec": "qalculate"
+  },
+  {
+    "name": "Apache2",
+    "manager": "apt",
+    "cat": "Devops",
+    "exec": "apache2"
+  },
+  {
+    "name": "Nginx",
+    "manager": "apt",
+    "cat": "Devops",
+    "exec": "nginx"
   }
 ]
