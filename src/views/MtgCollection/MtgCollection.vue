@@ -19,7 +19,20 @@
           </v-toolbar>
           <v-card-text>
             <v-select label="Search for card" :items="cardList" v-model="chosenName" autocomplete browser-autocomplete="off"> </v-select>
+          </v-card-text>
+          <v-card-text>
+            <p v-for="(card, index) in chosenFull" :key="index" v-if="card.image_uris">
+              <v-tooltip right open-delay="0" close-delay="0" content-class="vtooltip">
+                <a slot="activator" :href="card.image_uris.small" class="tooltip-target b3">{{card.name + ' - ' + (card.usd ? '$' + card.usd : 'Price unavailable') + ' - ' + _.upperCase(card.set)}}</a>
+                <img :src="card.image_uris.small" alt="">
+
+              </v-tooltip>
+
+            </p>
+
             <pre>{{JSON.stringify(chosenFull, null, 2)}}</pre>
+
+            <img src="" alt="">
           </v-card-text>
         </v-card>
 
@@ -56,6 +69,11 @@ export default {
     )
     this.cardList = res.data
   },
+  computed: {
+    _() {
+      return _
+    }
+  },
   watch: {
     async chosenName() {
       let combined =
@@ -89,4 +107,7 @@ const api = Cache({
 </script>
 
 <style>
+.vtooltip {
+  opacity: 1;
+}
 </style>
