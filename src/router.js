@@ -6,6 +6,7 @@ import UsefulShell from './views/UsefulShell'
 import VueClipboard from 'vue-clipboard2'
 import MtgEv from './views/MtgEv'
 import MtgCollection from './views/MtgCollection/MtgCollection'
+import Json2Html from './views/Json2Html'
 Vue.use(Router)
 Vue.use(VueClipboard)
 
@@ -35,6 +36,11 @@ export default new Router({
       path: '/mtgcollection',
       name: 'MtgCollection',
       component: MtgCollection
+    },
+    {
+      path: '/json2html',
+      name: 'Json2Html',
+      component: Json2Html
     }
   ]
 })

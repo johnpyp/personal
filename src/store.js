@@ -48,6 +48,21 @@ export default new Vuex.Store({
             icon: 'games'
           }
         ]
+      },
+      {
+        type: 'subheader',
+        content: 'Pokemon Go'
+      },
+      {
+        type: 'items',
+        content: [
+          {
+            name: 'Json2Html',
+            route: { name: 'Json2Html' },
+            description: 'Convert GoManager Json to HTML',
+            icon: 'compare_arrows'
+          }
+        ]
       }
     ]
   },

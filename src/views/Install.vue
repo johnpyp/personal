@@ -11,6 +11,7 @@
             </v-btn>
           </v-toolbar>
           <v-card-text>
+            <v-btn color="success" @click="selectAll">Select All</v-btn>
             <v-layout row wrap>
               <v-flex xs12 sm6 md4 lg3 v-for="(packages, index) in _.map(_.groupBy(packages, 'cat'), (x, cat) => ({packages: x, cat}))" :key="index">
 
@@ -67,7 +68,9 @@ export default {
         ' '
       )
       let customList = _.map(_.filter(chosen, { manager: 'custom' }), 'exec')
-      if (aptList.length > 0) res += '\n\n#apt\nsudo apt-get install ' + aptList
+      if (aptList.length > 0) {
+        res += '\n\n#apt\nsudo apt-get -y install ' + aptList
+      }
       if (snapList.length > 0) res += '\n\n#snap\nsudo snap install ' + snapList
       if (customList.length > 0) {
         res += '\n\n#custom\n' + _.flattenDeep(customList).join('\n')
